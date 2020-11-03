@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
 
 namespace KafkaProducer
 {
@@ -41,7 +39,6 @@ namespace KafkaProducer
         public int unit;
         public int type;
         public double[] coordinates;
-        public string color;
     }
 
     internal class OutputGPS

@@ -46,8 +46,8 @@ namespace KafkaConsumer
 
             using (var consumer = new ConsumerBuilder<Ignore, string>(config).Build())
             {
-                consumer.Subscribe("streams-gpsdata-enriched");
-                //consumer.Subscribe("conprod-gpsdata-enriched");
+                //consumer.Subscribe("streams-gpsdata-enriched");
+                consumer.Subscribe("conprod-gpsdata-enriched");
 
                 CancellationTokenSource cts = new CancellationTokenSource();
                 Console.CancelKeyPress += (_, e) => {
