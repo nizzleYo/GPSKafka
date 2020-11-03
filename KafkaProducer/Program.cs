@@ -9,7 +9,7 @@ namespace KafkaProducer
     {
         static void Main(string[] args)
         {
-            JSONLoader json = new JSONLoader("C:\\Users\\nms\\source\\repos\\GPSKafka\\KafkaProducer\\data_paris_service_alpha_nocolor.json");
+            JsonLoader json = new JsonLoader("C:\\Users\\nms\\source\\repos\\GPSKafka\\KafkaProducer\\data_paris_service_alpha_nocolor.json");
             var parisData = json.LoadJson();
 
             var config = new ProducerConfig { BootstrapServers = "localhost:9092" };

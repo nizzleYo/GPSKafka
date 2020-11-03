@@ -5,47 +5,47 @@ using System.Linq;
 
 namespace KafkaProducer
 {
-    class JSONLoader
+    class JsonLoader
     {
         public string path;
 
-        public JSONLoader(string path)
+        public JsonLoader(string path)
         {
             this.path = path;
         }
 
-        public List<OutputGPS> LoadJson()
+        public List<OutputGps> LoadJson()
         {
             using (StreamReader r = new StreamReader(path))
             {
                 string json = r.ReadToEnd();
-                List<InputGPS> items = JsonConvert.DeserializeObject<List<InputGPS>>(json);
-                List<OutputGPS> outputGPS = convertInputToOutput(items);
-                return outputGPS;
+                List<InputGps> items = JsonConvert.DeserializeObject<List<InputGps>>(json);
+                List<OutputGps> outputGps = convertInputToOutput(items);
+                return outputGps;
             }
         }
 
-        private List<OutputGPS> convertInputToOutput(List<InputGPS> items)
+        private List<OutputGps> convertInputToOutput(List<InputGps> items)
         {
-            var outputGPS = items
-                .Select(x => new OutputGPS() { unit = x.unit, type = x.type, latitude = x.coordinates[1], longitude = x.coordinates[0] })
+            var outputGps = items
+                .Select(x => new OutputGps() { Unit = x.Unit, Type = x.Type, Latitude = x.Coordinates[1], Longitude = x.Coordinates[0] })
                 .ToList();
-            return outputGPS;
+            return outputGps;
         }
     }
 
-    internal class InputGPS
+    internal class InputGps
     {
-        public int unit;
-        public int type;
-        public double[] coordinates;
+        public int Unit;
+        public int Type;
+        public double[] Coordinates;
     }
 
-    internal class OutputGPS
+    internal class OutputGps
     {
-        public int unit;
-        public int type;
-        public double latitude;
-        public double longitude;
+        public int Unit;
+        public int Type;
+        public double Latitude;
+        public double Longitude;
     }
 }
