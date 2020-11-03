@@ -25,7 +25,7 @@ namespace KafkaProducer
                 {
                     string payload = JsonConvert.SerializeObject(gpsData);
                     producerBuilder.Produce("raw-gpsdata-unenriched", new Message<Null, string> { Value = payload }, handler);
-                    Thread.Sleep(100);
+                    //Thread.Sleep(100);
                 }
 
                 producerBuilder.Flush(TimeSpan.FromSeconds(10));

@@ -13,7 +13,7 @@ namespace KafkaConsumer
 {
     public partial class Form1 : Form
     {
-        private readonly object overlayLock = new object();
+        private readonly object _overlayLock = new object();
         private GMapOverlay _markersOverlay = new GMapOverlay("markers");
         private Thread thread;
 
@@ -60,12 +60,12 @@ namespace KafkaConsumer
                     while (true)
                     {
                         var consumeResult = consumer.Consume(cts.Token);
-                        var payload = JsonConvert.DeserializeObject<GPSInput>(consumeResult.Message.Value);
+                        var payload = JsonConvert.DeserializeObject<GpsInput>(consumeResult.Message.Value);
 
-                        var tag = payload.unit.ToString();
-                        var latitude = payload.latitude;
-                        var longitude = payload.longitude;
-                        var color = payload.color;
+                        var tag = payload.Unit.ToString();
+                        var latitude = payload.Latitude;
+                        var longitude = payload.Longitude;
+                        var color = payload.Color;
 
                         AddOrUpdateMarker(tag, latitude, longitude, color);
                         Thread.Sleep(25);
@@ -81,16 +81,15 @@ namespace KafkaConsumer
 
         private void AddOrUpdateMarker(string tag, double lat, double lng, string color)
         {
-            lock(overlayLock)
+            lock(_overlayLock)
             {           
                 var markersOverlayTemp = _markersOverlay;
                 var marker = markersOverlayTemp.Markers.FirstOrDefault(m => (string)m.Tag == tag);
 
                 if (marker == null)
                 {
-                    GMarkerGoogleType markerType = DetermineMarkerType(color);
-                    marker = new GMarkerGoogle(new PointLatLng(lat, lng), markerType);
-                    marker.Tag = tag;
+                    var markerType = DetermineMarkerType(color);
+                    marker = new GMarkerGoogle(new PointLatLng(lat, lng), markerType) {Tag = tag};
                     _markersOverlay.Markers.Add(marker);
                 }
 
@@ -119,13 +118,13 @@ namespace KafkaConsumer
             }
         }
 
-        internal class GPSInput
+        internal class GpsInput
         {
-            public int unit;
-            public int type;
-            public double latitude;
-            public double longitude;
-            public string color;
+            public int Unit;
+            public int Type;
+            public double Latitude;
+            public double Longitude;
+            public string Color;
         }
     }
 }
